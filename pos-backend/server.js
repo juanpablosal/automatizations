@@ -10,7 +10,7 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 3000;
 require('dotenv').config(); // Cargar variables de entorno
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs' , "bcrypt");
 const jwt = require('jsonwebtoken');
 // Middleware
 app.use(cors());
@@ -65,7 +65,7 @@ app.post('/usuarios/login', async (req, res) => {
     const passwordCorrecta = await bcrypt.compare(password, usuarioDB.password);
 
     if (!passwordCorrecta) {
-      return res.status(400).json({ message: 'Contraseña incorrecta' });
+      return res.status(400).json({ code: "INVALID_PASSOWORD", message: 'Contraseña incorrecta' });
     }
 
     const token = jwt.sign({ id: usuarioDB.id }, JWT_SECRET, { expiresIn: '1h' });
